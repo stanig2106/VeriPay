@@ -1,0 +1,40 @@
+{
+  "name": "@vueth/monorepo",
+  "version": "1.0.0",
+  "keywords": [
+    "ethereum",
+    "react",
+    "uniswap",
+    "workspaces",
+    "yarn"
+  ],
+  "private": true,
+  "scripts": {
+    "vue-src:build": "yarn workspace @vueth/vue-src build",
+    "vue-src:start": "yarn workspace @vueth/vue-src start",
+    "vue-src:test": "yarn workspace @vueth/vue-src test:unit",
+    "build": "yarn workspace @vueth/vue-src build",
+    "chain": "yarn workspace @vueth/buidler chain",
+    "node": "yarn workspace @vueth/buidler chain",
+    "test": "yarn workspace @vueth/buidler test",
+    "start": "yarn workspace @vueth/vue-src start",
+    "compile": "yarn workspace @vueth/buidler compile",
+    "deploy": "yarn workspace @vueth/buidler deploy",
+    "watch": "yarn workspace @vueth/buidler watch",
+    "accounts": "yarn workspace @vueth/buidler accounts",
+    "balance": "yarn workspace @vueth/buidler balance",
+    "send": "yarn workspace @vueth/buidler send",
+    "ipfs": "yarn workspace @vueth/vue-src ipfs",
+    "surge": "yarn workspace @vueth/vue-src surge",
+    "s3": "yarn workspace @vueth/vue-src s3",
+    "ship": "yarn workspace @vueth/vue-src ship",
+    "generate": "cd packages/buidler && npx buidler generate",
+    "account": "cd packages/buidler && npx buidler account",
+    "flatten": "cd packages/buidler && npx buidler flatten"
+  },
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  }
+}
