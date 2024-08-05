@@ -6,10 +6,14 @@ const { connectors, connect } = useConnect();
 </script>
 
 <template>
+  <div class="flex gap-4 flex-col max-w-64">
+
   <v-btn
       v-for="connector in connectors"
       @click="connect({ connector, chainId })"
+      :key="connector.uid"
   >
-    {{ connector.name }}
+    Connect with {{ connector.name }}
   </v-btn>
+  </div>
 </template>

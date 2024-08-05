@@ -1,42 +1,54 @@
 <script lang="ts" setup>
+import {useAccount, useDisconnect} from "@wagmi/vue";
+import Address from "@/components/Address.vue";
 
-import router from "@/router";
+const {address, isConnected} = useAccount()
+const {disconnect} = useDisconnect();
+
 </script>
 
 <template>
-  <div class="navbar bg-base-100">
-    <div class="flex-1">
-      <a class="btn btn-ghost text-xl" @click="router.push('/')">
-        VeriPay
-      </a>
-    </div>
+  <v-app-bar rounded>
+    <v-app-bar-title>
+      VeriPay
+    </v-app-bar-title>
 
-    <div class="flex justify-end gap-6 w-full">
-      <input class="input input-bordered w-full max-w-72"
-             placeholder="Search an article on VeriPay..." type="text"/>
+    <template v-slot:append>
+      <div class="mr-4">
+        <template v-if="isConnected">
+          <v-btn size="big">
+            <Address :address="address!">
+            </Address>
 
-      <div class="dropdown dropdown-end">
+            <v-menu activator="parent">
+              <v-list>
 
-        <div class="btn btn-ghost btn-circle avatar" tabindex="0">
-          <div class="w-10 rounded-full">
-            <img
-                alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/>
-          </div>
-        </div>
-        <ul
-            class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-            tabindex="0">
-          <li>
-            <a class="justify-between">
-              Profile
-              <span class="badge">New</span>
-            </a>
-          </li>
-          <li><a>Settings</a></li>
-          <li><a>Logout</a></li>
-        </ul>
+                <v-list-item value="disconnect" @click="disconnect()">
+                  <v-list-item-title>
+                    Disconnect
+                  </v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-btn>
+        </template>
+
+        <template v-else>
+          <v-btn>
+            Connect
+            <v-dialog activator="parent" width="500">
+              <v-card>
+                <v-card-title>
+                  Connect
+                </v-card-title>
+                <v-card-text>
+                  <Connect/>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+          </v-btn>
+        </template>
       </div>
-    </div>
-  </div>
+    </template>
+  </v-app-bar>
 </template>

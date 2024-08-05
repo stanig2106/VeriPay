@@ -16,6 +16,5 @@ module.exports = {
             addVariant('>', '& > *');
             addVariant('*', '& *');
         }),
-        require('daisyui'),
     ]
 };

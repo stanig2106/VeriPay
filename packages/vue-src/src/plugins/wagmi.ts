@@ -1,16 +1,15 @@
 import {createConfig, http, WagmiPlugin} from '@wagmi/vue'
-import {mainnet} from '@wagmi/vue/chains'
+import {base, baseSepolia} from '@wagmi/vue/chains'
 import {QueryClient, VueQueryPlugin} from '@tanstack/vue-query'
 
 
 import {App} from "vue";
 
 export const config = createConfig({
-    chains: [mainnet],
-    connectors: [
-    ],
+    chains: [baseSepolia],
     transports: {
-        [mainnet.id]: http(),
+        [base.id]: http(),
+        [baseSepolia.id]: http(),
     },
 })
 
