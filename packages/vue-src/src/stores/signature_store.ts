@@ -3,6 +3,7 @@ import {MaybeRefOrGetter, reactive, ref, toRef, toValue} from "vue";
 import {signMessage} from '@wagmi/core'
 import {config} from "@/plugins/wagmi";
 import {verifyMessage} from 'ethers';
+import {ec as EC} from 'elliptic';
 
 
 const asked = ref(false)
@@ -48,8 +49,25 @@ export const useSignatureStore = defineStore("signature", () => {
         return toRef(() => signatures[toValue(address)])
     }
 
+    function getKeys(signature: MaybeRefOrGetter) {
+        return toRef(() => {
+            if (!toValue(signature)) return null
+            const ec = new EC('secp256k1');
+
+            const hash = ec.hash().update(toValue(signature)).digest();
+
+            const keyPair = ec.genKeyPair({entropy: hash});
+
+            const publicKey = keyPair.getPublic('hex');
+            const privateKey = keyPair.getPrivate('hex');
+
+            return {publicKey, privateKey};
+        })
+    }
+
     return {
         getSignature,
+        getKeys,
         signatures,
         updateSignature,
     }

@@ -8,11 +8,9 @@ import {useSignatureStore} from "@/stores/signature_store";
 import {useAccount} from "@wagmi/vue";
 import {waitRef} from "@/utils/reactivity";
 
-const {updateSignature, getSignature} = useSignatureStore()
+const {updateSignature} = useSignatureStore()
 
 const {address} = useAccount()
-
-const signature = getSignature(address)
 
 watchConnections(config, {
   async onChange() {
@@ -29,8 +27,9 @@ watchConnections(config, {
   <v-app>
     <v-main>
       <Header/>
-      <router-view/>
-      {{ signature }}
+      <div class="p-4">
+        <router-view/>
+      </div>
     </v-main>
   </v-app>
 </template>

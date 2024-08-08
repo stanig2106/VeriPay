@@ -27,7 +27,8 @@ pinia.use(({ store }) => {
   );
 
   store.$subscribe(
-    async (_, state) => await setItem(store.$id, toRawObject(state))
+    async (_, state) =>
+        await setItem(store.$id, toRawObject(state))
   );
 });
 

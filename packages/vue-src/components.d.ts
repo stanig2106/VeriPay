@@ -13,6 +13,7 @@ declare module 'vue' {
     Blockies: typeof import('./src/components/Blockies.vue')['default']
     Connect: typeof import('./src/components/Connect.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    ProductCard: typeof import('./src/components/ProductCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

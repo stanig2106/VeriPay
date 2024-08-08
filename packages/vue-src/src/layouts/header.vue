@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useAccount, useDisconnect} from "@wagmi/vue";
 import Address from "@/components/Address.vue";
+import router from "@/router";
 
 const {address, isConnected} = useAccount()
 const {disconnect} = useDisconnect();
@@ -10,7 +11,14 @@ const {disconnect} = useDisconnect();
 <template>
   <v-app-bar rounded>
     <v-app-bar-title>
-      VeriPay
+      <div class="w-full flex gap-4 items-center">
+        <v-btn class="font-bold" @click="router.push('/')">
+          VeriPay
+        </v-btn>
+        <v-btn prepend-icon="mdi-cash" @click="router.push('/products')">
+          Products
+        </v-btn>
+      </div>
     </v-app-bar-title>
 
     <template v-slot:append>
@@ -22,6 +30,15 @@ const {disconnect} = useDisconnect();
 
             <v-menu activator="parent">
               <v-list>
+                <v-list-item value="identity" @click="() => router.push('/identity')">
+                  <v-list-item-title>
+                    <div class="flex items-center w-full justify-between">
+                      Prove your identity
+                      <v-badge color="red" inline/>
+                    </div>
+                  </v-list-item-title>
+                </v-list-item>
+
 
                 <v-list-item value="disconnect" @click="disconnect()">
                   <v-list-item-title>

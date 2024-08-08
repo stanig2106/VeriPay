@@ -2,6 +2,61 @@
 @tailwind components;
 @tailwind utilities;
 
-.v-btn__content {
-  text-transform: none;
+button {
+  text-transform: none !important;
 }
+
+.text-muted {
+  @apply text-gray-500;
+}
+
+.one-line, .\>\:one-line > *, .\*\:one-line * {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flex-center {
+  @apply flex justify-center items-center;
+}
+
+.v-card * {
+  --v-focus-opacity: 0 !important;
+  --v-hover-opacity: 0 !important;
+}
+
+h1 {
+  @apply text-4xl;
+}
+
+h2 {
+  @apply text-3xl;
+}
+
+h3 {
+  @apply text-2xl;
+}
+
+h4 {
+  @apply text-xl;
+}
+
+h5 {
+  @apply text-lg;
+}
+
+h6 {
+  @apply text-base;
+}
+
+.square-shadow.elevation-2 {
+  box-shadow: 0 50vh white,
+  0px 3px 1px -2px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)),
+  0px 2px 2px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)),
+  0px 1px 5px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.12)) !important;
+
+
+}
+

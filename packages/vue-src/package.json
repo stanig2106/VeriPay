@@ -14,6 +14,7 @@
     "npm": ">=8"
   },
   "dependencies": {
+    "@helia/unixfs": "^3.0.7",
     "@mdi/font": "7.4.47",
     "@metamask/providers": "^17.1.2",
     "@tanstack/react-query": "^5.51.21",
@@ -23,7 +24,10 @@
     "axios": "^1.7.2",
     "blockies-ts": "^1.0.0",
     "core-js": "^3.37.1",
+    "elliptic": "^6.5.6",
     "ethers": "^6.13.2",
+    "gun": "^0.2020.1240",
+    "helia": "^4.2.5",
     "localforage": "^1.10.0",
     "pinia": "^2.1.7",
     "roboto-fontface": "*",
@@ -35,6 +39,7 @@
   },
   "devDependencies": {
     "@babel/types": "^7.24.7",
+    "@types/elliptic": "^6.4.18",
     "@types/node": "^20.14.11",
     "@vitejs/plugin-vue": "^5.0.5",
     "autoprefixer": "^10.4.19",
