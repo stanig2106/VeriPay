@@ -1,0 +1,1 @@
+export default "0xfDc373250130DE9533a028d9c04A1Ea122a07775";

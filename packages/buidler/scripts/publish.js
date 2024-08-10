@@ -3,7 +3,14 @@ const chalk = require("chalk");
 const path = require("path");
 const {network} = require("hardhat");
 
-const publishDir = path.resolve(__dirname, "../../vue-src/src/contracts");
+
+// get chain from command line
+const chain = network.name;
+if (!chain) {
+    console.log(chalk.red("Please provide a chain name"));
+    process.exit(1);
+}
+const publishDir = path.resolve(__dirname, `../../vue-src/src/contracts/${chain}`);
 
 function publishContract(contractName) {
     console.log(

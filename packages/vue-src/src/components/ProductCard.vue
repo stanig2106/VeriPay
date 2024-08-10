@@ -15,18 +15,18 @@ const props = defineProps<{
 <template>
 
   <v-card>
-<!--
-    <v-carousel cycle height="200"
-                hide-delimiter-background
-                show-arrows="hover">
-      <v-carousel-item
-          v-for="(image, i) in props.image"
-          :key="i">
-        <img :src="image" alt="Product" class="w-full h-full object-contain
-        object-center">
-      </v-carousel-item>
-    </v-carousel>
--->
+    <!--
+        <v-carousel cycle height="200"
+                    hide-delimiter-background
+                    show-arrows="hover">
+          <v-carousel-item
+              v-for="(image, i) in props.image"
+              :key="i">
+            <img :src="image" alt="Product" class="w-full h-full object-contain
+            object-center">
+          </v-carousel-item>
+        </v-carousel>
+    -->
 
     <v-card-title>
       <h2 class="font-bold">
@@ -43,7 +43,7 @@ const props = defineProps<{
 
       </div>
       <div class="flex justify-between items-center">
-<!--        <v-chip>{{ props.category }}</v-chip>-->
+        <!--        <v-chip>{{ props.category }}</v-chip>-->
         <span class="text-muted mt-1">{{ props.price }} ETH</span>
       </div>
     </v-card-subtitle>

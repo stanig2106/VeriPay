@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {computed, onMounted, ref} from "vue";
 import {gunDB} from "@/plugins/gun";
 import SEA from 'gun/sea';
+import {baseSepolia, optimismSepolia} from "@wagmi/vue/chains";
 
 export type Product = {
     id: string;
@@ -10,6 +11,7 @@ export type Product = {
     description: string;
     // image: string[];
     seller: `0x${string}`;
+    chainId: typeof baseSepolia.id | typeof optimismSepolia.id | 0
 }
 
 export const useProductsStore = defineStore("products", () => {

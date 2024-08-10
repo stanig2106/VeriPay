@@ -1,10 +1,27 @@
 <script lang="ts" setup>
-import {useAccount, useDisconnect} from "@wagmi/vue";
+import {
+  useAccount,
+  useDisconnect,
+} from "@wagmi/vue";
 import Address from "@/components/Address.vue";
 import router from "@/router";
+import {ref, watch} from "vue";
+import {storeToRefs} from "pinia";
+import {useIdentityStore} from "@/stores/identity_store";
 
 const {address, isConnected} = useAccount()
 const {disconnect} = useDisconnect();
+
+const {isVerified} = storeToRefs(useIdentityStore())
+
+
+const firstWatch = ref(true)
+watch(isConnected, () => {
+  if (firstWatch.value)
+    firstWatch.value = false
+  else
+    router.go(0)
+})
 
 </script>
 
@@ -21,7 +38,6 @@ const {disconnect} = useDisconnect();
         <v-btn prepend-icon="mdi-plus" @click="router.push('/products/add')">
           Add a product
         </v-btn>
-
       </div>
     </v-app-bar-title>
 
@@ -34,11 +50,13 @@ const {disconnect} = useDisconnect();
 
             <v-menu activator="parent">
               <v-list>
-                <v-list-item value="identity" @click="() => router.push('/identity')">
+                <v-list-item value="identity"
+                             @click="() => router.push('/identity')">
                   <v-list-item-title>
                     <div class="flex items-center w-full justify-between">
                       Prove your identity
-                      <v-badge color="red" inline/>
+
+                      <v-badge :color="isVerified ? 'green' : 'red'" inline/>
                     </div>
                   </v-list-item-title>
                 </v-list-item>
@@ -55,7 +73,7 @@ const {disconnect} = useDisconnect();
         </template>
 
         <template v-else>
-          <v-btn>
+          <v-btn @click="firstWatch = false">
             Connect
             <v-dialog activator="parent" width="500">
               <v-card>

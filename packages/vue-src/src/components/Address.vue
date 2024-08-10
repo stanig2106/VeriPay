@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import {ref, computed} from 'vue'
+import {ref, computed, watch} from 'vue'
 import Blockie from './Blockie.vue'
 import {useEnsName} from "@wagmi/vue";
 import {mainnet} from "viem/chains";
@@ -40,7 +40,18 @@ async function copy() {
   timeout = setTimeout(() => {
     copying.value = false
   }, 1000)
-}</script>
+}
+
+const ensCache =
+    localStorage.getItem(`ens-${props.address}`)
+
+watch(ens.data, (value) => {
+  if (value)
+    localStorage.setItem(`ens-${props.address}`, value)
+  else
+    localStorage.removeItem(`ens-${props.address}`)
+})
+</script>
 
 <template>
   <div class="flex items-center gap-2 px-2">
@@ -49,8 +60,7 @@ async function copy() {
         :icon="copying ? 'mdi-clipboard-check-outline' : 'mdi-clipboard-file-outline'"
         @click.stop="copy"/>
     <span :class="{ 'text-2xl': !small }" class="font-bold mb-1">
-      {{ ens.data.value || displayAddress }}
-      {{ ens.error }}
+      {{ ens.data.value || ensCache || displayAddress }}
     </span>
     <Blockie :address="address" :size="small ? '6' : '10'" class="shrink-0"/>
   </div>

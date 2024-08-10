@@ -14,7 +14,7 @@ const {updateSignature, getSignature} = useSignatureStore()
 const {address} = useAccount()
 
 watchConnections(config, {
-  async onChange() {
+  async onChange(connection, prevConnection) {
     await waitRef(address, 'infinite', false)
     await updateSignature(address)
     console.log('Gun auth : ' + address.value + ' password : ' + getSignature(address).value)
@@ -25,6 +25,7 @@ watchConnections(config, {
       }).catch((err) => {
         console.log('Gun auth : ' + err)
       })
+
   }
 })
 

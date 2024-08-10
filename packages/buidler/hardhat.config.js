@@ -1,3 +1,4 @@
+// hardhat.config.js
 require("@nomiclabs/hardhat-waffle");
 const {utils} = require("ethers");
 const fs = require("fs");
@@ -5,7 +6,7 @@ const fs = require("fs");
 const {isAddress, getAddress, formatUnits, parseUnits} = utils;
 
 // Select the network you want to deploy to here:
-const defaultNetwork = "baseSepolia";
+const defaultNetwork = "optimismSepolia";
 
 function mnemonic() {
     try {
@@ -31,6 +32,13 @@ module.exports = {
                 mnemonic: mnemonic(),
             },
             chainId: 84532,
+        },
+        optimismSepolia: {
+            url: "https://optimism-sepolia.infura.io/v3/3515e8a88c2d42e79d69d0a61bd34ba0",
+            accounts: {
+                mnemonic: mnemonic(),
+            },
+            chainId: 11155420,
         },
         rinkeby: {
             url: "https://rinkeby.infura.io/v3/YOUR_INFURA_PROJECT_ID",

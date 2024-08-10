@@ -20,6 +20,8 @@
     "start": "yarn workspace @vueth/vue-src start",
     "compile": "yarn workspace @vueth/buidler compile",
     "deploy": "yarn workspace @vueth/buidler deploy",
+    "deploy:base": "yarn workspace @vueth/buidler deploy:base",
+    "deploy:op": "yarn workspace @vueth/buidler deploy:op",
     "watch": "yarn workspace @vueth/buidler watch",
     "accounts": "yarn workspace @vueth/buidler accounts",
     "balance": "yarn workspace @vueth/buidler balance",

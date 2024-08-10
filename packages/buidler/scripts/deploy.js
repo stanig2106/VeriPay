@@ -1,3 +1,4 @@
+// deploy.js
 const fs = require("fs");
 const chalk = require("chalk");
 const {ethers, run, network} = require("hardhat");
@@ -6,14 +7,31 @@ const {utils} = require("ethers");
 async function main() {
     console.log("📡 Deploy \n");
 
-    // Auto deploy to read contract directory and deploy them all (add ".args" files for arguments)
-    await autoDeploy();
-    // OR
-    // Custom deploy (to use deployed addresses dynamically for example:)
-    // const exampleToken = await deploy("ExampleToken");
-    // const examplePriceOracle = await deploy("ExamplePriceOracle");
-    // const smartContractWallet = await deploy("SmartContractWallet", [exampleToken.address, examplePriceOracle.address]);
+    let args = [];
+    if (network.name === "baseSepolia") {
+        args = readArgumentsFile("VeriPayBaseContract");
+    } else if (network.name === "optimismSepolia") {
+        args = readArgumentsFile("VeriPayOpContract")
+    } else {
+        throw new Error(`Unsupported network: ${network.name}`);
+    }
+    await deploy("VeriPayContract", args);
 }
+
+function readArgumentsFile(contractName) {
+    let args = [];
+    try {
+        const argsFile = `./contracts/${contractName}.args`;
+        if (fs.existsSync(argsFile)) {
+            args = JSON.parse(fs.readFileSync(argsFile));
+        }
+    } catch (e) {
+        console.log(e);
+    }
+
+    return args;
+}
+
 
 async function deploy(name, _args) {
     const args = _args || [];
@@ -36,48 +54,6 @@ async function deploy(name, _args) {
         "\n"
     );
     return contract;
-}
-
-const isSolidity = (fileName) =>
-    fileName.indexOf(".sol") >= 0 && fileName.indexOf(".swp.") < 0;
-
-function readArgumentsFile(contractName) {
-    let args = [];
-    try {
-        const argsFile = `./contracts/${contractName}.args`;
-        if (fs.existsSync(argsFile)) {
-            args = JSON.parse(fs.readFileSync(argsFile));
-        }
-    } catch (e) {
-        console.log(e);
-    }
-
-    return args;
-}
-
-async function autoDeploy() {
-    const contractList = fs.readdirSync("./contracts"); // Use relative path directly
-    return contractList
-        .filter((fileName) => isSolidity(fileName))
-        .reduce((lastDeployment, fileName) => {
-            const contractName = fileName.replace(".sol", "");
-            const args = readArgumentsFile(contractName);
-
-            // Wait for last deployment to complete before starting the next
-            return lastDeployment.then((resultArrSoFar) =>
-                deploy(contractName, args).then((result) => {
-                    if (args && result && result.interface && result.interface.deploy) {
-                        const encoded = utils.defaultAbiCoder.encode(
-                            result.interface.deploy.inputs,
-                            args
-                        );
-                        fs.writeFileSync(`artifacts/${contractName}.args`, encoded);
-                    }
-
-                    return [...resultArrSoFar, result];
-                })
-            );
-        }, Promise.resolve([]));
 }
 
 main()

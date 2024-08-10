@@ -23,6 +23,8 @@
     "test": "hardhat test --network hardhat",
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js && hardhat run scripts/publish.js",
+    "deploy:base": "hardhat run scripts/deploy.js --network baseSepolia && hardhat run scripts/publish.js --network baseSepolia",
+    "deploy:op": "hardhat run scripts/deploy.js --network optimismSepolia && hardhat run scripts/publish.js --network optimismSepolia",
     "watch": "node scripts/watch.js",
     "accounts": "hardhat accounts",
     "balance": "hardhat balance",

@@ -1,12 +1,21 @@
 <script lang="ts" setup>
 
 import '@worldcoin/idkit-standalone'
-import {onMounted, onUnmounted} from "vue";
-import {useAccount, useWriteContract} from "@wagmi/vue";
-import {baseSepolia} from "@wagmi/vue/chains";
-import VeriPayContractAbi from "@/contracts/VeriPayContract.abi";
-import VeriPayContractAddress from "@/contracts/VeriPayContract.address";
+import {onMounted, onUnmounted, ref, watch} from "vue";
+import {useAccount, useWriteContract, useSwitchChain} from "@wagmi/vue";
+import {baseSepolia, optimismSepolia} from "@wagmi/vue/chains";
 import {decodeAbiParameters, parseAbiParameters} from 'viem'
+import {useIdentityStore} from "@/stores/identity_store";
+import {storeToRefs} from "pinia";
+import BaseVeriPayContractAbi
+  from "@/contracts/baseSepolia/VeriPayContract.abi";
+import BaseVeriPayContractAddress
+  from "@/contracts/baseSepolia/VeriPayContract.address";
+import OpVeriPayContractAbi
+  from "@/contracts/optimismSepolia/VeriPayContract.abi";
+import OpVeriPayContractAddress
+  from "@/contracts/optimismSepolia/VeriPayContract.address";
+import router from "@/router";
 
 
 declare global {
@@ -14,8 +23,12 @@ declare global {
     IDKit: any
   }
 }
-const {address} = useAccount()
+const {address, chainId: currentChainId} = useAccount()
 const {writeContractAsync} = useWriteContract()
+const {chains: allowedChain, switchChain} = useSwitchChain()
+const loading = ref(false)
+
+const error = ref<string | null>(null)
 
 if (!window.IDKit.isInitialized)
   window.IDKit.init({
@@ -33,19 +46,26 @@ if (!window.IDKit.isInitialized)
             e!.proof
         )[0],
       ]
-      console.log(args)
 
-      const write = await writeContractAsync({
-        abi: VeriPayContractAbi,
-        address: VeriPayContractAddress,
-        chain: baseSepolia,
-        chainId: baseSepolia.id,
+      loading.value = true
+      console.log("Sending with", chain.value)
+      const data = await writeContractAsync({
+        abi: chain.value.id === optimismSepolia.id ? OpVeriPayContractAbi : BaseVeriPayContractAbi,
+        address: chain.value.id === optimismSepolia.id ? OpVeriPayContractAddress : BaseVeriPayContractAddress,
+        chain: chain.value,
+        chainId: chain.value.id,
         functionName: 'verifyId',
         args
+      }).catch((e) => {
+        console.error(e)
+        error.value = 'The verification failed, It could be that you have already verified ' +
+            'your identity with another address or that the process was interrupted. ' +
+            'Please try again.'
+        return null
       })
-      console.log(write)
-
-
+      if (data)
+        router.go(0)
+      loading.value = false
     },
   })
 
@@ -59,6 +79,26 @@ onMounted(() => {
 onUnmounted(() => {
   document.querySelector('header')?.classList.remove('!z-10')
 })
+
+
+const {isVerified, fetching} = storeToRefs(useIdentityStore())
+
+const chains = [
+  {title: 'Base Sepolia', value: baseSepolia},
+  {title: 'Optimism Sepolia', value: optimismSepolia}
+].filter((c) => allowedChain.value.some((ac) => ac.id === c.value.id))
+const chain = ref(
+    (chains.find((c) => c.value.id === currentChainId.value)?.value as
+        typeof chains[number]['value']) ?? chains[0].value)
+
+watch(chain, async () => {
+  switchChain({chainId: chain.value.id})
+}, {immediate: true})
+
+watch(currentChainId, () => {
+  chain.value = currentChainId.value === baseSepolia.id ? baseSepolia : optimismSepolia
+}, {immediate: true})
+
 </script>
 
 <template>
@@ -67,6 +107,9 @@ onUnmounted(() => {
       Identity
     </h1>
 
+    <v-alert v-if="error" class="max-w-4xl mx-auto mt-4" type="error">
+      {{ error }}
+    </v-alert>
     <div class="max-w-4xl mx-auto px-6 mt-4">
       <!--      explain that the account have to be verify with world id to ensure that personne doesnt abuse of the platform-->
       <div class="flex flex-col gap-2">
@@ -82,9 +125,22 @@ onUnmounted(() => {
           To verify your identity, click the button below.
         </p>
         <div class="text-center mt-2">
-          <v-btn class="font-bold" color="black" @click="verify()">
+          <div class="flex justify-center">
+            <div class="w-[400px] grow-0">
+              <v-select v-if="!isVerified" v-model="chain" :items="chains"
+                        :loading="fetching || loading"
+                        label="On witch chain you want to verify" outlined/>
+            </div>
+          </div>
+          <v-btn v-if="!isVerified" :loading="fetching || loading"
+                 class="font-bold"
+                 color="black" @click="verify()">
             Verify with World ID
           </v-btn>
+
+          <div v-else>
+            <p class="text-green-500">You are verified, enjoy the platform</p>
+          </div>
         </div>
       </div>
 
