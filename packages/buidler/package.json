@@ -4,24 +4,28 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "@nomiclabs/buidler": "^1.4.1",
-    "@nomiclabs/buidler-ethers": "^2.0.0",
-    "@nomiclabs/buidler-waffle": "^2.0.0",
-    "@openzeppelin/contracts": "^3.1.0",
+    "hardhat": "^2.22.8",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
+    "@openzeppelin/contracts": "^5.0.2",
     "chai": "^4.2.0",
     "chalk": "^4.1.0",
     "ethereum-waffle": "^3.0.2",
     "ethers": "^5.0.7",
-    "node-watch": "^0.6.4"
+    "node-watch": "^0.6.4",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0"
   },
   "scripts": {
-    "chain": "buidler node",
-    "test": "buidler test --network buidlerevm",
-    "compile": "buidler compile",
-    "deploy": "buidler run scripts/deploy.js && buidler run scripts/publish.js",
+    "chain": "hardhat node",
+    "test": "hardhat test --network hardhat",
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js && hardhat run scripts/publish.js",
     "watch": "node scripts/watch.js",
-    "accounts": "buidler accounts",
-    "balance": "buidler balance",
-    "send": "buidler send"
+    "accounts": "hardhat accounts",
+    "balance": "hardhat balance",
+    "send": "hardhat send"
   }
 }

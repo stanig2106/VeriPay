@@ -1,66 +1,87 @@
 const fs = require("fs");
 const chalk = require("chalk");
-const bre = require("@nomiclabs/buidler");
+const path = require("path");
+const {network} = require("hardhat");
 
-const publishDir = "../vue-app/src/contracts";
+const publishDir = path.resolve(__dirname, "../../vue-src/src/contracts");
 
 function publishContract(contractName) {
-  console.log(
-    "Publishing",
-    chalk.cyan(contractName),
-    "to",
-    chalk.yellow(publishDir)
-  );
-  try {
-    let contract = fs
-      .readFileSync(`${bre.config.paths.artifacts}/${contractName}.json`)
-      .toString();
-    const address = fs
-      .readFileSync(`${bre.config.paths.artifacts}/${contractName}.address`)
-      .toString();
-    contract = JSON.parse(contract);
-    fs.writeFileSync(
-      `${publishDir}/${contractName}.address.js`,
-      `module.exports = "${address}";`
+    console.log(
+        "Publishing",
+        chalk.cyan(contractName),
+        "to",
+        chalk.yellow(publishDir)
     );
-    fs.writeFileSync(
-      `${publishDir}/${contractName}.abi.js`,
-      `module.exports = ${JSON.stringify(contract.abi, null, 2)};`
-    );
-    fs.writeFileSync(
-      `${publishDir}/${contractName}.bytecode.js`,
-      `module.exports = "${contract.bytecode}";`
-    );
+    try {
+        const artifactPath = path.resolve(
+            __dirname,
+            `../artifacts/contracts/${contractName}.sol/${contractName}.json`
+        );
 
-    return true;
-  } catch (e) {
-    console.log(e);
-    return false;
-  }
+        if (!fs.existsSync(artifactPath)) {
+            console.log(chalk.red(`Artifact not found for ${contractName}`));
+            return false;
+        }
+
+        const contractArtifact = JSON.parse(fs.readFileSync(artifactPath, "utf8"));
+        const addressPath = path.resolve(
+            __dirname,
+            `../artifacts/${contractName}.address`
+        );
+
+        if (!fs.existsSync(addressPath)) {
+            console.log(chalk.red(`Address not found for ${contractName}`));
+            return false;
+        }
+
+        const address = fs.readFileSync(addressPath, "utf8").trim();
+
+        fs.writeFileSync(
+            `${publishDir}/${contractName}.address.ts`,
+            `export default "${address}";`
+        );
+        fs.writeFileSync(
+            `${publishDir}/${contractName}.abi.ts`,
+            `export default ${JSON.stringify(contractArtifact.abi, null, 2)};`
+        );
+        fs.writeFileSync(
+            `${publishDir}/${contractName}.bytecode.ts`,
+            `export default "${contractArtifact.bytecode}";`
+        );
+
+        return true;
+    } catch (e) {
+        console.log(e);
+        return false;
+    }
 }
 
 async function main() {
-  if (!fs.existsSync(publishDir)) {
-    fs.mkdirSync(publishDir);
-  }
-  const finalContractList = [];
-  fs.readdirSync(bre.config.paths.sources).forEach((file) => {
-    if (file.indexOf(".sol") >= 0) {
-      const contractName = file.replace(".sol", "");
-      // Add contract to list if publishing is successful
-      if (publishContract(contractName)) {
-        finalContractList.push(contractName);
-      }
+    if (!fs.existsSync(publishDir)) {
+        fs.mkdirSync(publishDir, {recursive: true});
     }
-  });
-  fs.writeFileSync(
-    `${publishDir}/contracts.js`,
-    `module.exports = ${JSON.stringify(finalContractList)};`
-  );
+    const finalContractList = [];
+    const contractsDir = path.resolve(__dirname, "../contracts");
+
+    fs.readdirSync(contractsDir).forEach((file) => {
+        if (file.endsWith(".sol")) {
+            const contractName = file.replace(".sol", "");
+            // Add contract to list if publishing is successful
+            if (publishContract(contractName)) {
+                finalContractList.push(contractName);
+            }
+        }
+    });
+
+    fs.writeFileSync(
+        `${publishDir}/contracts.ts`,
+        `export default ${JSON.stringify(finalContractList)};`
+    );
 }
+
 main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+    .then(() => process.exit(0))
+    .catch((error) => {
+        console.error(error);
+        process.exit(1);
+    });

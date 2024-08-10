@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {ref, computed} from 'vue'
 import Blockie from './Blockie.vue'
-import {createConfig, http, useEnsName} from "@wagmi/vue";
+import {useEnsName} from "@wagmi/vue";
 import {mainnet} from "viem/chains";
 
 const props = defineProps<{
@@ -12,13 +12,7 @@ const props = defineProps<{
 
 const ens = useEnsName({
   address: computed(() => props.address),
-  config: createConfig({
-    chains: [mainnet],
-    connectors: [],
-    transports: {
-      [mainnet.id]: http(),
-    },
-  })
+  chainId: mainnet.id,
 })
 
 const copying = ref(false)
@@ -56,6 +50,7 @@ async function copy() {
         @click.stop="copy"/>
     <span :class="{ 'text-2xl': !small }" class="font-bold mb-1">
       {{ ens.data.value || displayAddress }}
+      {{ ens.error }}
     </span>
     <Blockie :address="address" :size="small ? '6' : '10'" class="shrink-0"/>
   </div>
