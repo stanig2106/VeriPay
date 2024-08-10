@@ -54,70 +54,97 @@
         oracles are compensated through the smart contract, maintaining a fair
         and unbiased moderation system.
       </p>
-      <h2 class="text-2xl font-semibold text-blue-600 mt-8">Example Use Case</h2>
-      <p class="text-lg text-gray-700">
-        Paul wants to sell a phone. He logs into VeriPay with his MetaMask
-        wallet, verifies his identity with World ID, and creates a post with
-        a description and photos of the product. To post, he deposits $15,
-        which he can recover if he deletes the post or the product is sold
-        correctly.
-      </p>
-      <p class="text-lg text-gray-700">
-        Alice, who also has a verified account, sees Paul's post. She uses
-        the integrated E2E encrypted messaging to get more information about
-        the product and purchases it by making a transaction to the smart
-        contract, also depositing $15. She provides Paul with the shipping
-        details.
-      </p>
-      <p class="text-lg text-gray-700">
-        Paul ships the package, and Alice receives it. Satisfied with the
-        product, she confirms the transaction on the smart contract, and the
-        amount plus the $15 deposit is transferred to Paul's wallet. Alice also
-        recovers her $15.
-      </p>
-      <p class="text-lg text-gray-700">
-        In another scenario, Paul sends the phone, but the camera doesn't work.
-        Alice notices this and attempts to negotiate, but they can't reach an
-        agreement. She opens a dispute, and five random individuals are chosen
-        to judge the situation. They can communicate with both Alice and Paul
-        to determine who is right. In this case, the judges agree with Alice,
-        and they instruct that the phone be returned to Paul (at his expense)
-        for a refund. Once Paul receives the phone, the judges cancel the smart
-        contract transaction, and Alice recovers her money and her $15
-        deposit. Paul's $15 deposit is distributed among the five judges.
-      </p>
-      <p class="text-lg text-gray-700">
-        In the final possible scenario, Paul had accurately noted the camera
-        as broken in the post, but Alice missed this detail. The judges declare
-        Alice responsible; she agrees to keep the phone despite this. The money
-        and deposit are transferred to Paul, but Alice does not recover her
-        $15, which is distributed among the judges.
-      </p>
-      <p class="text-lg text-gray-700">
-        Judges can also decide to ban a user if they determine the behavior of
-        one party severely violates the site's code of conduct.
-      </p>
-      <p class="text-lg text-gray-700">
-        VeriPay showcases how traditional web applications can be reimagined
-        with decentralization at their core. By integrating cutting-edge
-        technologies, we provide a glimpse into a future where web
-        applications are more resilient, secure, and user-centric. Join us in
-        this journey towards a truly decentralized web!
-      </p>
-      <h2 class="text-2xl font-semibold text-blue-600 mt-8">To-Do List</h2>
-      <ul class="list-disc list-inside text-lg text-gray-700">
-        <li>✅ Create the frontend</li>
-        <li>✅ Connect with MetaMask</li>
-        <li>✅ Generate a public/private key pair from a wallet signature for E2E encryption and private data encryption</li>
-        <li>✅ Implement GUN JS to share post information and keys</li>
-        <li>✅ E2E encrypted chat</li>
-        <li>✅ Verification with World ID</li>
-        <li>🕒 File and photo sharing in posts with IPFS</li>
-        <li>🕒 Create the smart contract (transaction and World ID check)</li>
-        <li>🕒 Manage disputes and deposits with the smart contract</li>
-        <li>🕒 User banning</li>
-        <li>🕒 Decentralized frontend</li>
-      </ul>
+
+
+      <v-expansion-panels class="-mx-6" elevation="0">
+        <v-expansion-panel>
+          <v-expansion-panel-title>
+            <h2 class="text-2xl font-semibold text-blue-600">
+              Example Use Case
+            </h2>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <div class="space-y-4">
+              <p class="text-lg text-gray-700">
+                Paul wants to sell a phone. He logs into VeriPay with his
+                MetaMask wallet, verifies his identity with World ID, and
+                creates a post with a description and photos of the product. To
+                post, he deposits $15, which he can recover if he deletes the
+                post or the product is sold correctly.
+              </p>
+              <p class="text-lg text-gray-700">
+                Alice, who also has a verified account, sees Paul's post. She
+                uses the integrated E2E encrypted messaging to get more
+                information about the product and purchases it by making a
+                transaction to the smart contract, also depositing $15. She
+                provides Paul with the shipping details.
+              </p>
+              <p class="text-lg text-gray-700">
+                Paul ships the package, and Alice receives it. Satisfied with
+                the product, she confirms the transaction on the smart contract,
+                and the amount plus the $15 deposit is transferred to Paul's
+                wallet. Alice also recovers her $15.
+              </p>
+              <p class="text-lg text-gray-700">
+                In another scenario, Paul sends the phone, but the camera
+                doesn't work. Alice notices this and attempts to negotiate, but
+                they can't reach an agreement. She opens a dispute, and five
+                random individuals are chosen to judge the situation. They can
+                communicate with both Alice and Paul to determine who is right.
+                In this case, the judges agree with Alice, and they instruct
+                that the phone be returned to Paul (at his expense) for a
+                refund. Once Paul receives the phone, the judges cancel the
+                smart contract transaction, and Alice recovers her money and her
+                $15 deposit. Paul's $15 deposit is distributed among the five
+                judges.</p>
+              <p class="text-lg text-gray-700">
+                In the final possible scenario, Paul had accurately noted the
+                camera as broken in the post, but Alice missed this detail. The
+                judges declare Alice responsible; she agrees to keep the phone
+                despite this. The money and deposit are transferred to Paul, but
+                Alice does not recover her
+                $15, which is distributed among the judges.
+              </p>
+              <p class="text-lg text-gray-700">
+                Judges can also decide to ban a user if they determine the
+                behavior of one party severely violates the site's code of
+                conduct.
+              </p>
+              <p class="text-lg text-gray-700">
+                VeriPay showcases how traditional web applications can be
+                reimagined with decentralization at their core. By integrating
+                cutting-edge technologies, we provide a glimpse into a future
+                where web applications are more resilient, secure, and
+                user-centric. Join us in
+                this journey towards a truly decentralized web!
+              </p>
+            </div>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
+
+
+      <h2 class="text-2xl font-semibold text-blue-600 mt-8">TO-DO List</h2>
+      <div class="flex flex-col space-y-2">
+        <div>✅ Create the frontend</div>
+        <div>
+          ✅ Implement a fun <a class="text-blue-600 underline"
+                               href="404">404</a> page
+        </div>
+        <div>✅ Connect with MetaMask</div>
+        <div>
+          ✅ Generate a public/private key pair from a wallet signature for
+          E2E encryption and private data encryption
+        </div>
+        <div>✅ Implement GUN JS to share post information and keys</div>
+        <div>✅ E2E encrypted chat</div>
+        <div>🕒 File and photo sharing in posts with IPFS</div>
+        <div>🕒 Create the smart contract (transaction and World ID check)</div>
+        <div>✅ Verification with World ID</div>
+        <div>🕒 Manage disputes and deposits with the smart contract</div>
+        <div>🕒 User banning</div>
+        <div>🕒 Decentralized frontend</div>
+      </div>
     </div>
   </div>
 </template>

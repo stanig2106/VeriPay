@@ -51,8 +51,9 @@ async function copy() {
 <template>
   <div class="flex items-center gap-2 px-2">
 
-    <v-icon :icon="copying ? 'mdi-clipboard-check-outline' : 'mdi-clipboard-file-outline'"
-            @click.stop="copy"/>
+    <v-icon
+        :icon="copying ? 'mdi-clipboard-check-outline' : 'mdi-clipboard-file-outline'"
+        @click.stop="copy"/>
     <span :class="{ 'text-2xl': !small }" class="font-bold mb-1">
       {{ ens.data.value || displayAddress }}
     </span>

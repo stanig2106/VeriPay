@@ -18,6 +18,10 @@ const {disconnect} = useDisconnect();
         <v-btn prepend-icon="mdi-cash" @click="router.push('/products')">
           Products
         </v-btn>
+        <v-btn prepend-icon="mdi-plus" @click="router.push('/products/add')">
+          Add a product
+        </v-btn>
+
       </div>
     </v-app-bar-title>
 

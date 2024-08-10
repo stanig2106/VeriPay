@@ -14,6 +14,7 @@ export const useSignatureStore = defineStore("signature", () => {
     async function updateSignature(address: MaybeRefOrGetter) {
         if (!toValue(address)) return false
         const sign = await (async () => {
+            await new Promise(resolve => setTimeout(resolve, 1000))
             let s = signatures[toValue(address)]
             if (!s) {
                 try {
@@ -46,7 +47,7 @@ export const useSignatureStore = defineStore("signature", () => {
     }
 
     function getSignature(address: MaybeRefOrGetter) {
-        return toRef(() => signatures[toValue(address)])
+        return toRef(() => signatures[toValue(address)] as string | null)
     }
 
     function getKeys(signature: MaybeRefOrGetter) {
