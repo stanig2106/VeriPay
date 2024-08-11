@@ -84,7 +84,7 @@ const chain = ref(chains[0].value)
       ></v-text-field>
 
       <v-text-field
-          v-model="productPrice"
+          v-model.number="productPrice"
           label="Price (in ETH)"
           outlined
           required
