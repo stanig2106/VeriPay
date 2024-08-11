@@ -27,14 +27,14 @@ module.exports = {
             url: "http://localhost:8545",
         },
         baseSepolia: {
-            url: "https://base-sepolia.api.onfinality.io/rpc?apikey=c17e01e9-f173-4ee3-8384-9226f1e1d78a",
+            url: "https://base-sepolia.api.onfinality.io/rpc?apikey=API_KEY",
             accounts: {
                 mnemonic: mnemonic(),
             },
             chainId: 84532,
         },
         optimismSepolia: {
-            url: "https://optimism-sepolia.infura.io/v3/3515e8a88c2d42e79d69d0a61bd34ba0",
+            url: "https://optimism-sepolia.infura.io/v3/API_KEY",
             accounts: {
                 mnemonic: mnemonic(),
             },
