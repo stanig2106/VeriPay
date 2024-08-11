@@ -11,6 +11,10 @@ capabilities of modern decentralized technologies.
 An online demo can be found at https://veripay.gam-s.fr/  
 I'm not responsible for possible loss of funds, use at your own risk, this is a demo.
 
+### Presentation video
+
+https://github.com/user-attachments/assets/b1fe0866-5250-4232-91d6-213bbd32fae1
+
 ### Deploy VeriPay frontend
 
 1. Clone the repository
