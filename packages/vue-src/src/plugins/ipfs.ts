@@ -6,5 +6,5 @@ export async function createHeliaNode() {
     return unixfs(helia);
 }
 
-export const fs = await createHeliaNode();
+export const fs = createHeliaNode();
 

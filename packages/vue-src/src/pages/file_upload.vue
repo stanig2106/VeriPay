@@ -14,7 +14,7 @@ async function uploadImage() {
     const reader = new FileReader();
     reader.onload = async (event) => {
       const data = new Uint8Array(event.target!.result as ArrayBuffer);
-      const cid = await fs.addBytes(data);
+      const cid = await (await fs).addBytes(data);
       console.log('Image uploaded to IPFS with CID:', cid.toString());
       alert(`Image uploaded to IPFS. CID: ${cid.toString()}`);
 
