@@ -2,7 +2,7 @@ import Gun from "gun";
 import 'gun/sea';
 
 export const gunDB = Gun({
-    peers: ['http://localhost:8765/gun'],
+    peers: ['https://gun.veripay.gam-s.fr/gun'],
 })
 
 export function gunAuth(address: `0x${string}`, signature: string) {

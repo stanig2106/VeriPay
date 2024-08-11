@@ -38,7 +38,7 @@ const props = defineProps<{
     </v-card-title>
 
     <v-card-subtitle class="mb-3">
-      <div>
+      <div class="text-wrap w-full">
         {{ props.description }}
 
       </div>
